@@ -1,8 +1,8 @@
-/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 html,
 body {
@@ -38,6 +38,12 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+/* Desktop / Mobile header toggles */
+.desktop-header { display: none; }
+.mobile-header { display: none; }
+.site-header { width: 100%; }
+.header-inner { flex-direction: row; }
+
 .logo {
   font-weight: 800;
   font-size: 28px;
@@ -65,7 +71,7 @@ body {
   left: 0;
   bottom: -18px;
   height: 4px;
-  width: 48px;
+  width: 100%;
   background: #1e293b;
   border-radius: 6px;
 }
@@ -75,6 +81,120 @@ body {
   align-items: center;
   gap: 30px;
 }
+
+/* Hamburger button (mobile) */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.hamburger:focus { outline: 2px solid #2b71f2; }
+
+/* When `.nav-open` is on body we show the sidebar nav */
+body.nav-open .main-nav {
+  display: flex !important;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  max-width: 85%;
+  background: #ffffff;
+  box-shadow: -8px 0 24px rgba(16,24,32,0.18);
+  padding: 64px 18px 18px 18px;
+  z-index: 9999;
+  flex-direction: column;
+  align-items: stretch;
+  overflow-y: auto;
+}
+body.nav-open { overflow: hidden; }
+/* show the nav list when sidebar is open */
+body.nav-open .main-nav ul {
+  display: flex !important;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0;
+  margin: 0;
+}
+
+/* close button inside sidebar */
+.main-nav { position: relative; }
+.main-nav .nav-close {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.main-nav .nav-close:focus { outline: 2px solid #2b71f2; }
+
+/* show close button when sidebar is open (mobile) */
+body.nav-open .main-nav .nav-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sidebar visual improvements (only affect when sidebar is open) */
+body.nav-open .main-nav {
+  padding-top: 72px; /* room for close button */
+}
+body.nav-open .main-nav ul {
+  padding: 0 12px;
+}
+body.nav-open .main-nav ul li a {
+  font-size: 18px;
+  padding: 12px 14px;
+  display: block;
+  border-radius: 10px;
+  color: #0f1b26;
+}
+body.nav-open .main-nav ul li a:hover {
+  background: rgba(43,113,242,0.08);
+}
+
+/* translate button inside sidebar */
+.main-nav .sidebar-translate {
+  display: none;
+}
+body.nav-open .main-nav .sidebar-translate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 18px 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #2b71f2;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* header translate: show on desktop, move header-actions into sidebar on small screens */
+.header-actions .translate { display: flex; align-items: center; gap: 8px; }
+.sidebar-header-actions { display: none; align-items: center; gap: 12px; }
+body.nav-open .main-nav .sidebar-header-actions { display: flex; }
+
+/* place hamburger next to logo on small screens */
+@media (max-width: 980px) {
+  .header-inner .hamburger { margin-left: 12px; }
+  .header-actions { display: none; }
+}
+
 .action {
   display: flex;
   flex-direction: column;
@@ -142,7 +262,7 @@ body {
 }
 
 .hero-left h1 {
-  font-size: 3.1em;
+  font-size: clamp(1.6rem, 3.6vw + 1rem, 3.1rem);
   line-height: 1.02;
   margin-bottom: 18px;
   font-weight: 800;
@@ -176,7 +296,7 @@ body {
 }
 
 .about h2 {
-  font-size: 3em;
+  font-size: clamp(1.4rem, 2.8vw + 1rem, 3em);
   margin-bottom: 16px;
   font-weight: 800;
   color: #142433;
@@ -186,6 +306,7 @@ body {
   line-height: 1.7;
   font-size: 1.3em;
   max-width: 1200px;
+  text-align: justify;
 }
 
 /* Features */
@@ -193,7 +314,7 @@ body {
   padding: 2.5em 1em 2.5em 1em;
 }
 .features h2 {
-  font-size: 3em;
+  font-size: clamp(1.4rem, 2.8vw + 1rem, 3em);
   margin-bottom: 1em;
   color: #142433;
 }
@@ -247,7 +368,7 @@ body {
   padding: 2.5em 1em 2.5em 1em;
 }
 .latest-scholarships h2 {
-  font-size: 3em;
+  font-size: clamp(1.4rem, 2.8vw + 1rem, 3em);
   margin-bottom: 1em;
   color: #142433;
 }
@@ -266,7 +387,7 @@ body {
   display: flex;
   gap: 22px;
   width: 100%;
-  height: 300px;
+  min-height: 300px;
   align-items: center;
   background: #F5F5F5;
   border: 1px solid rgba(30, 34, 59, 0.3);
@@ -277,7 +398,7 @@ body {
   flex: 0 0 260px;
 }
 .sch-img img {
-  max-height: 259px;
+  height: 259px;
   display: block;
   border-radius: 10px;
 }
@@ -320,9 +441,25 @@ body {
   h1 {
     font-size: 34px;
   }
+  /* Mobile-friendly nav: stack links under header */
+  .header-inner {
+    align-items: center;
+    gap: 12px;
+  }
+  /* keep header row on all sizes; only hide nav on small screens */
+  .main-nav {
+    width: 100%;
+  }
+  /* hide the nav by default on smaller screens; hamburger will open it */
   .main-nav ul {
     display: none;
   }
+  .main-nav a {
+    font-size: 16px;
+    padding: 8px 12px;
+    display: inline-block;
+  }
+  .hamburger { display: inline-flex; position: relative; }
 }
 .logo {
   display: flex;
@@ -337,6 +474,41 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Tablet and phone specific tweaks */
+@media (max-width: 768px) {
+  .hero-left h1 { font-size: 2.2em; }
+  .lead { font-size: 1.05em; }
+
+  .feature-grid { flex-direction: column; }
+  .feature-card { flex: 1 1 100%; }
+
+  .sch-card { flex-direction: column; min-height: auto; height: auto; align-items: stretch; }
+  .sch-img { flex: 0 0 auto; width: 100%; }
+  .sch-img img { width: 100%; height: auto; }
+  .sch-body { padding: 12px 6px; }
+
+  .header-actions { gap: 12px; }
+  .logo svg { max-width: 5.2em; }
+}
+
+@media (max-width: 480px) {
+  .hero-left h1 { font-size: 1.6em; }
+  .lead { font-size: 1em; }
+  .btn { padding: 10px 18px; }
+
+  .main-nav ul { gap: 8px; }
+  .main-nav a { font-size: 15px; }
+
+  .feature-card { padding: 18px; }
+  .feature-icon { width: 72px; height: 72px; }
+
+  .sch-body h3 { font-size: 1.4em; }
+  .sch-body p { font-size: 1em; }
+
+  .footer-top, .footer-bottom { padding: 16px; }
+  .footer-nav ul { gap: 12px; flex-wrap: wrap; justify-content: center; }
 }
 
 /* Footer */
